@@ -41,9 +41,9 @@ def winBoard(board):
 	player1 = []
 	player2 = []
 	for i in range(len(board)):
-		if i == 1:
+		if board[i] == 1:
 			player1.append(i)
-		elif i == 2:
+		elif board[i] == 2:
 			player2.append(i)
 	player1 = Set(player1)
 	player2 = Set(player2)
