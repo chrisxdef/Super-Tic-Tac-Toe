@@ -22,22 +22,16 @@ class Node():
 	def h(self):
 		return randint(0, 100)
 
-def minimax(node, depth, maximizingPlayer):
-	if depth == 0 or node.children is None:
-		return h(node)
-	
-	if maximizingPlayer:
-		bestValue = -1 - sys.maxint
-		for child in node.children:
-			v = minimax(child, depth-1, FALSE)
-			bestValue = v if (v > bestValue) else bestValue
-		return bestValue
-	else:
-		bestValue = sys.maxint
-		for child in node.children:
-			v = minimax(child, depth - 1, TRUE)
-			bestValue = v if (v < bestValue) else bestValue
-		return bestValue
+	def minimax(self, mini):
+		if len(self.children) == 0:
+			return self.h()
+		values = []
+		for child in self.children:
+			values.append(child.minimax(not mini))
+		print values
+		if mini:
+			return min(values)
+		return max(values)
 
 
 if __name__=="__main__":
