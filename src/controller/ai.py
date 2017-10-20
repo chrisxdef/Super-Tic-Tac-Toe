@@ -1,5 +1,6 @@
 import sys
 from random import randint
+from sets import Set
 
 class Node():
 	def __init__(self, player, gameBoard):
@@ -17,7 +18,8 @@ class Node():
 				tempBoard[index] = self.player
 				self.children.append(Node(p, tempBoard))
 		for child in self.children:
-			child.createTree()
+			if not winBoard(child.gameBoard):
+				child.createTree()
 		
 	def h(self):
 		return randint(0, 100)
@@ -32,6 +34,23 @@ class Node():
 		if mini:
 			return min(values)
 		return max(values)
+
+winBoards = [Set([0,1,2]),Set([3,4,5]),Set([6,7,8]),Set([0,3,6]),Set([1,4,7]),Set([2,5,8]),Set([0,4,8]),Set([2,4,6])]
+
+def winBoard(board):
+	player1 = []
+	player2 = []
+	for i in range(len(board)):
+		if i == 1:
+			player1.append(i)
+		elif i == 2:
+			player2.append(i)
+	player1 = Set(player1)
+	player2 = Set(player2)
+	for s in winBoards:
+		if s.issubset(player1) or s.issubset(player2):
+			return True
+		return False
 
 
 if __name__=="__main__":
