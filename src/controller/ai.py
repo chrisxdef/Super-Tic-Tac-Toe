@@ -9,7 +9,8 @@ class Node():
 		# Player is indicating which player's turn it is for the current gameboard
 		self.player = player
 
-	def createTree(self):
+	def createTree(self, max_depth, depth=0):
+		depth += 1
 		# p represents the next player to move
 		p = 2 if self.player == 1 else 1
 		for index in range(len(self.gameBoard)):
@@ -17,11 +18,13 @@ class Node():
 				tempBoard = self.gameBoard[:]
 				tempBoard[index] = self.player
 				self.children.append(Node(p, tempBoard))
+		if depth == max_depth:
+			return
 		for child in self.children:
 			if not winBoard(child.gameBoard):
-				child.createTree()
+				child.createTree(max_depth, depth)
 		
-	def h(self):
+	def h(self, ai):
 		return randint(0, 100)
 
 	def minimax(self, mini):
@@ -48,8 +51,10 @@ def winBoard(board):
 	player1 = Set(player1)
 	player2 = Set(player2)
 	for s in winBoards:
-		if s.issubset(player1) or s.issubset(player2):
-			return True
+		if s.issubset(player1):
+			return 1
+		elif s.issubset(player2):
+			return 2
 	return False
 
 	

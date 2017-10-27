@@ -3,7 +3,7 @@ from ai import Node
 
 gameBoard = [0,0,0,0,0,0,0,0,0]         
 n = Node(1,gameBoard)
-n.createTree()
+n.createTree(3)
 print 'Done createTree()'
 
 for child in n.children:
