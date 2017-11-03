@@ -1,10 +1,11 @@
 import sys
+from copy import deepcopy
 sys.path.append("../view")
-from tic-tac-toe import winBoard
 from random import randint
-from sets import Set
+sys.path.append("../model")
+from game_utils import winBoard, fullBoard
 
-class Node():
+class Node(object):
 	def __init__(self, player, gameBoard):
 		self.children = []
 		self.gameBoard = gameBoard
@@ -51,8 +52,37 @@ class Node():
 			return min(values)
 		return max(values)
 
-	
-if __name__=="__main__":
-	args = sys.argv
-	# Make args useful here
-	minimax()
+class SuperNode(Node):
+	def __init__(self, player, gameBoard, gameIndex=-1):
+		self.gameIndex = gameIndex
+		super(SuperNode, self).__init__(player, gameBoard)
+
+	def createTree(self, max_depth, depth=0):
+		depth += 1
+		# p represents the next player to move
+		p = 2 if self.player == 1 else 1
+		if self.gameIndex == -1 or type(self.gameBoard[self.gameIndex]) is int:
+			indices = []
+			for i in range(len(self.gameBoard)):
+				if type(self.gameBoard[i]) is not int:
+					indices.append(i)
+		else:
+			indices = [self.gameIndex]
+		for index in indices:	
+			for sub_index in range(len(self.gameBoard[index])):
+				if self.gameBoard[index][sub_index] == 0:
+					tempBoard = deepcopy(self.gameBoard)
+					tempBoard[index][sub_index] = self.player
+					win = winBoard(tempBoard[index])
+					if win:
+						tempBoard[index] = win
+					self.children.append(SuperNode(p, tempBoard, gameIndex = sub_index))
+		if depth == max_depth:
+			return
+		for child in self.children:
+			if not winBoard(child.gameBoard):
+				child.createTree(max_depth, depth)
+		
+
+	def h(self, ai):
+		pass	

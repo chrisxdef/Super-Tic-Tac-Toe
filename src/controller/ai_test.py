@@ -1,20 +1,25 @@
 import sys
-from ai import Node
+from ai import Node, SuperNode
 
-gameBoard = [0,0,0,0,0,0,0,0,0]         
-n = Node(1,gameBoard)
+def printChildren(node, max_depth, depth=0):
+	s = ""
+	for i in range(depth):
+		s += "\t"
+	print s + str(node.gameBoard)
+	depth+=1
+	if depth < max_depth:
+		for child in node.children:
+			printChildren(child,max_depth,depth)	
+
+
+subBoard = [0,0,0,0,0,0,0,0,0]         
+gameBoard = []
+for i in range(9):
+	gameBoard.append(subBoard[:])
+
+
+n = SuperNode(1,gameBoard)
 n.createTree(3)
 print 'Done createTree()'
 
-for child in n.children:
-	print child.gameBoard
-	for child2 in child.children:
-		print "\t"+str(child2.gameBoard)
-		for child3 in child2.children:
-			print "\t\t"+str(child3.gameBoard)
-			for child4 in child3.children:
-				print "\t\t\t"+str(child4.gameBoard)
-				for child5 in child4.children:
-					print "\t\t\t\t"+str(child5.gameBoard)
-					for child6 in child5.children:
-						print "\t\t\t\t\t"+str(child6.gameBoard)
+printChildren(n, 6)
