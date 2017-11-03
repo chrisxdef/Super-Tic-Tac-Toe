@@ -18,6 +18,3 @@ for child in n.children:
 					print "\t\t\t\t"+str(child5.gameBoard)
 					for child6 in child5.children:
 						print "\t\t\t\t\t"+str(child6.gameBoard)
-				
-		
-	
