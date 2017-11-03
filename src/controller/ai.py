@@ -25,20 +25,37 @@ class Node():
 				child.createTree(max_depth, depth)
 		
 	def h(self, ai):
-		return randint(0, 100)
+		foo = winBoard(self.gameBoard)
+		if not foo:
+			return 0
+		elif foo == ai:
+			return 10
+		return -10
 
-	def minimax(self, mini):
+	def minimax(self, mini, ai, origin=False):
 		if len(self.children) == 0:
-			return self.h()
+			return self.h(ai)
 		values = []
 		for child in self.children:
-			values.append(child.minimax(not mini))
-		print values
+			values.append(child.minimax(not mini, ai))
+		if origin:
+			if mini:
+				v = min(values)
+			else:
+				v = max(values)
+			index = values.index(v)
+			return self.children[index].gameBoard
 		if mini:
 			return min(values)
 		return max(values)
 
 winBoards = [Set([0,1,2]),Set([3,4,5]),Set([6,7,8]),Set([0,3,6]),Set([1,4,7]),Set([2,5,8]),Set([0,4,8]),Set([2,4,6])]
+
+def fullBoard(board):
+	for i in board:
+		if i == 0:
+			return False
+	return True
 
 def winBoard(board):
 	player1 = []
