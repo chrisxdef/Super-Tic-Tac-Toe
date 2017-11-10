@@ -1,6 +1,5 @@
 import sys
 from copy import deepcopy
-sys.path.append("../view")
 from random import randint
 sys.path.append("../model")
 from game_utils import winBoard, fullBoard

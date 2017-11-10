@@ -1,8 +1,7 @@
 import sys
+from game_utils import winBoard, fullBoard
 sys.path.append("../controller")
 from ai import Node
-sys.path.append("../model")
-from game_utils import winBoard, fullBoard
 
 def game(gameBoard, human, ai):
 	running = True
@@ -32,6 +31,32 @@ def game(gameBoard, human, ai):
 			print "GG! It's a draw!"
 			running = False		
 
+superBoard = [[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]]
+
+class GameState:
+	def __init__(self, gameBoard=superBoard, human=1):
+		self.gameBoard = gameBoard
+		self.human = human
+		self.ai = 2 if human == 1 else 1
+		self.prompts = { self.human : "Show me your moves!", self.ai : "Robot's move."}
+		self.turn = 1
+		self.prompt = "Welcome to Super Tic-Tac-Toe!\n" + self.prompts[self.turn]
+		self.gameOver = False
+
+	def update(self, move):
+		self.gameBoard = move
+		self.gameOver = self.checkEnd()
+		if(self.gameOver):
+			self.prompt = "Game Over"
+		else:			
+			self.turn = 1 if self.turn == 2 else 1
+			self.prompt = self.prompts[self.turn]
+	
+	def checkEnd(self):
+		if(fullBoard(self.gameBoard)):
+			return 3
+		else:
+			return winBoard(self.gameBoard)
 
 if __name__ == "__main__":
 	gameBoard = [0,0,0,0,0,0,0,0,0]
