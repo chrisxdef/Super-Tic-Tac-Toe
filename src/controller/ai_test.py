@@ -19,7 +19,6 @@ for i in range(9):
 
 
 n = SuperNode(1,gameBoard)
-n.createTree(3)
+n.createTree(4)
 print 'Done createTree()'
 
-printChildren(n, 6)

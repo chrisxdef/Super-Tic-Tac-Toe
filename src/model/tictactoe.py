@@ -43,7 +43,11 @@ class GameState:
 		self.prompt = "Welcome to Super Tic-Tac-Toe!\n" + self.prompts[self.turn]
 		self.gameOver = False
 
-	def update(self, move):
+	def update(self, move=None):
+		if move == None:
+			n = SuperNode(self.turn, self.gameBoard)
+			n.createTree(4)
+			move = ai.minimax(False, self.ai)
 		self.gameBoard = move
 		self.gameOver = self.checkEnd()
 		if(self.gameOver):
