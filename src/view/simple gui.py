@@ -2,14 +2,16 @@ import Tkinter as tk
 import sys
 sys.path.append('../model')
 sys.path.append('../controller')
-from tictactoe import game
+from tictactoe import *
 from ai import *
+
 class App(tk.Frame):
 
     def __init__(self, master=None):
         self.s = 700 / 3  # side length of each square panel on our board
-        self.buttonList = []  # list of references to the tiles of our super board
-        self.symbols = {0 : "", 1 : "O", 2 : "X"}
+        self.symbols = {0: "", 1: "O", 2: "X"}
+        self.buttonList = []  # list of references to all panel buttons on our board
+        self.recentClick = 0
         top = tk.Frame.__init__(self, master)
         self.grid()
 
@@ -18,20 +20,31 @@ class App(tk.Frame):
                 f = tk.Frame(top, height = self.s, width = self.s, highlightbackground="black", highlightcolor="black", highlightthickness="5")
                 f.grid(row=r, column=c)
                 b = tk.Button(f, height=10, width=25, text="X", relief="flat", bd=0)
+                b.position = (3*r+c)
+                b.config(command=lambda widget=b: self.outputNumber(widget))
                 b.grid(row=r, column=c)
                 self.buttonList.append(b)
 
-    def update(self):
-        for i in range(0, 8):
-            #buttonList[i].config(text = symbols[currentBoard[i]])
-            pass
+    def outputNumber(self, button):
+        self.recentClick = button.position
 
+    def update(self, board):
+        for i in range (0, 8):
+            symb = self.symbols[board[i]]
+            print symb
+            #self.buttonList[i].config(text=self.symbols[board[i]])
 
-#Todo: buttonpush = raw input, or editing gameBoard directly? reading gameBoard, disabling buttons not in play
 
 app = App()
 app.master.title("Tic Tac Toe")
 app.mainloop()
-
-#main loop
-#game([0,0,0,0,0,0,0,0,0], 1, 2)
+if __name__ == "__main__":
+    gameBoard = [0,0,0,0,0,0,0,0,0]
+    over = False
+    humanTurn = True
+    while not over:
+        newInfo = (game(gameBoard, app.recentClick, humanTurn))
+        gameBoard = newInfo[0]
+        app.update(gameBoard)
+        humanTurn = not newInfo[1]
+        over = newInfo[2]
