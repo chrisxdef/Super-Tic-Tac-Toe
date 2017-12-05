@@ -62,6 +62,7 @@ class GameState:
 		else:
 			return winBoard(self.gameBoard)
 
+
 if __name__ == "__main__":
 	gameBoard = [0,0,0,0,0,0,0,0,0]
 	human = 1

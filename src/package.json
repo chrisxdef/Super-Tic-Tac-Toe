@@ -1,0 +1,25 @@
+{
+  "name": "super-ttt",
+  "version": "1.0.0",
+  "description": "A web based super tic-tac-toe implementation with a AI player.",
+  "main": "supertts.js",
+  "scripts": {
+    "test": "st"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Heisler0/Super-Tic-Tac-Toe.git"
+  },
+  "keywords": [
+    "tic-tac-toe"
+  ],
+  "author": "Christopher Heisler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Heisler0/Super-Tic-Tac-Toe/issues"
+  },
+  "homepage": "https://github.com/Heisler0/Super-Tic-Tac-Toe#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
